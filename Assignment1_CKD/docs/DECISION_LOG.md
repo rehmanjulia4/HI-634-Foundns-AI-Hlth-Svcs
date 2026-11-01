@@ -1,0 +1,17 @@
+# Decision log (finding, decision, reason)
+
+| # | Finding (evidence file) | Decision | Reason |
+|---|---|---|---|
+| D1 | 3 of 400 rows have 26 comma-separated fields instead of 25: data rows 70 and 73 end with a stray comma, row 370 has a stray empty field at position 20 (`01_row_structure_anomalies.csv`). A standard ARFF reader fails. | Remove only the empty extra field in those rows; log each repair. | The extra field holds no value, so no data is invented or lost. |
+| D2 | 16 cells carry a tab or space, in `pcv`, `wbcc`, `rbcc`, `dm`, `cad`, `class` (`01_dirty_text_values.csv`). | Trim whitespace in every text cell. | Otherwise `'ckd\t'` becomes a third class and `'\tno'` a third diabetes category. |
+| D3 | The class label has 248 `ckd`, 150 `notckd` and 2 `ckd\t`. | Combine to 250 and 150. | Same label, different spelling. No label is missing, so none is filled. |
+| D4 | 1,009 cells equal `?` and 3 more are `?` hidden by a tab: 1,012 missing of 9,600 predictor cells (10.5 percent). | Convert `?` to missing after trimming. | Documented missing marker. |
+| D5 | Missing share ranges from 0.2 percent to 38.0 percent (`rbc`). Only 158 of 400 records are complete; mean missing fields per record is 3.63 for `ckd` and 0.69 for `notckd`. | Do not drop incomplete rows. Impute inside the Pipeline. | Complete-case analysis would keep 122 of 320 training records and mostly `notckd` (90 versus 32). |
+| D6 | Missingness is far more common in `ckd` than `notckd`. A model using only missingness flags reaches about 0.80 accuracy. | Keep as a limitation. Compare imputation with and without flags. | Collection patterns may differ by label; the reason for missingness is not established. |
+| D7 | `sg`, `al`, `su` are called nominal by UCI but are ordered scales. | Treat as ordered numbers. | Preserves order, avoids many dummy columns. Limitation noted. |
+| D8 | 10 values fall outside broad plausibility screens (potassium 39 and 47, sodium 4.5, creatinine 48.1 and 76, and others) (`01_implausible_value_flags.csv`). | Keep them, flag them. | Assignment says not to delete a value merely for looking extreme. Median imputation and scaling are the exposure; this is noted as a limitation. |
+| D9 | Class share is 62.5 percent `ckd`. | Stratified 80/20 split, seed 634: train 200 and 120, test 50 and 30. | Same class share in both parts. |
+| D10 | Three imputation options perform within about 0.01 macro F1 of each other (`03_missing_data_strategies_cv.csv`). | Use median for numbers and most-frequent for categories, without flags. | Differences are inside the fold-to-fold spread, so the simplest option is kept. I did not pick the nominal winner. |
+| D11 | The baseline has CKD recall 1.000 and macro F1 0.385. | Select by macro F1 with a recall guardrail and a simplicity tie rule, applied by the code before test scoring. | Recall alone rewards predicting everyone positive. |
+| D12 | Logistic regression and random forest are within 0.01 macro F1. | Select logistic regression. | Within the chosen score tolerance, simpler decision function. |
+| D13 | Test result is 80 of 80 correct. Dropping the five strongest separators lowers CV macro F1 to about 0.946. | Report as an easy teaching problem and not as clinical readiness. | Several fields (hemoglobin, creatinine, albumin, specific gravity) are the sort of tests used to diagnose CKD, so labels may partly be defined by them. |

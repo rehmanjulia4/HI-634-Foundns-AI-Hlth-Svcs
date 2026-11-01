@@ -1,0 +1,4 @@
+data_row,fields_found,repair,fields_after
+70,26,removed trailing empty field,25
+73,26,removed trailing empty field,25
+370,26,removed stray empty field at position 20,25

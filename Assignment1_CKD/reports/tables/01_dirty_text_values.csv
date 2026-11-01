@@ -1,0 +1,5 @@
+column,raw_value,n
+dm,'\tno',3
+dm,'\tyes',2
+dm,' yes',1
+cad,'\tno',2

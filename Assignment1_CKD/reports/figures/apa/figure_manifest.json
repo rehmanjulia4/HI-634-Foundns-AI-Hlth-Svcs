@@ -1,0 +1,39 @@
+{
+  "source_tables": [
+    "01_missingness_by_variable.csv",
+    "03_model_comparison_cv.csv",
+    "03_results.json",
+    "03_test_predictions.csv"
+  ],
+  "sample_sizes": {
+    "all": 400,
+    "training": 320,
+    "test": 80
+  },
+  "test_matrix": [
+    [
+      30,
+      0
+    ],
+    [
+      0,
+      50
+    ]
+  ],
+  "displayed_missingness_rows": [
+    "rbc",
+    "rbcc",
+    "wbcc",
+    "pot",
+    "sod",
+    "pcv",
+    "pc",
+    "hemo"
+  ],
+  "class_counts": {
+    "ckd": 250,
+    "notckd": 150
+  },
+  "cv_whiskers": "Mean +/- 1 descriptive fold SD, not confidence intervals",
+  "figure_notes": "Standalone figure images omit number/title so APA numbering and titles are provided by the document."
+}

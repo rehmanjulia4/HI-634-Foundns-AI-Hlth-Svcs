@@ -1,0 +1,40 @@
+{
+  "raw_records": 400,
+  "missing_predictor_cells": 1012,
+  "complete_records": 158,
+  "whitespace_cells": 16,
+  "malformed_rows": [
+    70,
+    73,
+    370
+  ],
+  "independent_test_confusion_matrix": [
+    [
+      30,
+      0
+    ],
+    [
+      0,
+      50
+    ]
+  ],
+  "independent_predictions_match_saved": true,
+  "cached_importer_all_cleaned_values_match": true,
+  "cached_importer_is_not_fresh_network_verification": true,
+  "zip_comparisons": {
+    "03_model_comparison_cv.csv": {
+      "max_absolute_numeric_difference": 0.0,
+      "within_1e_10": true
+    },
+    "03_missing_data_strategies_cv.csv": {
+      "max_absolute_numeric_difference": 0.0,
+      "within_1e_10": true
+    },
+    "03_sensitivity_checks_cv.csv": {
+      "max_absolute_numeric_difference": 0.0,
+      "within_1e_10": true
+    }
+  },
+  "raw_files_match_original_zip": true,
+  "all_assertions_passed": true
+}
