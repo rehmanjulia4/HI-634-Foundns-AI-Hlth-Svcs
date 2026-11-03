@@ -157,8 +157,17 @@ test_metrics = {
     "baseline_accuracy_from_class_share": float(yte.mean()),
 }
 print(json.dumps(test_metrics, indent=2))
-pd.DataFrame(classification_report(yte, pred, target_names=["notckd", "ckd"], output_dict=True)).T \
-    .round(4).to_csv(TAB_DIR / "03_test_classification_report.csv")
+report_values = classification_report(
+    yte, pred, target_names=["notckd", "ckd"], output_dict=True)
+# Accuracy is one overall score, not a per-class precision/recall/F1 row.
+# Keep its score separate so pandas does not broadcast 1.0 into support.
+overall_accuracy = report_values.pop("accuracy")
+classification_table = pd.DataFrame(report_values).T
+classification_table.loc["accuracy", "support"] = len(yte)
+classification_table.loc["accuracy", "accuracy"] = overall_accuracy
+classification_table = classification_table.reindex(
+    ["notckd", "ckd", "accuracy", "macro avg", "weighted avg"])
+classification_table.round(4).to_csv(TAB_DIR / "03_test_classification_report.csv")
 
 # Error analysis
 errs = test.loc[pred != yte.values, ["record_id", TARGET, "hemo", "pcv", "sg", "al", "sc", "rbcc"]].copy()

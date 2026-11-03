@@ -1,9 +1,8 @@
 {
-  "source_tables": [
-    "01_missingness_by_variable.csv",
-    "03_model_comparison_cv.csv",
-    "03_results.json",
-    "03_test_predictions.csv"
+  "figure_files": [
+    "figure1_missingness.png",
+    "figure2_class_balance.png",
+    "figure3_confusion_matrix.png"
   ],
   "sample_sizes": {
     "all": 400,
@@ -20,20 +19,10 @@
       50
     ]
   ],
-  "displayed_missingness_rows": [
-    "rbc",
-    "rbcc",
-    "wbcc",
-    "pot",
-    "sod",
-    "pcv",
-    "pc",
-    "hemo"
+  "source_tables": [
+    "01_missingness_by_variable.csv",
+    "01_findings.json",
+    "03_test_predictions.csv"
   ],
-  "class_counts": {
-    "ckd": 250,
-    "notckd": 150
-  },
-  "cv_whiskers": "Mean +/- 1 descriptive fold SD, not confidence intervals",
-  "figure_notes": "Standalone figure images omit number/title so APA numbering and titles are provided by the document."
+  "font": "Arial"
 }
