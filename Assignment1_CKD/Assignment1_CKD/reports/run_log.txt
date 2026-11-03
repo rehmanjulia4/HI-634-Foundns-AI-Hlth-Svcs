@@ -1,0 +1,412 @@
+{
+  "started_utc": "2026-11-03T10:58:38.900399+00:00",
+  "python_executable": "C:\\Users\\JULIE\\Downloads\\HI634_Anaconda_Practice\\.venv\\python.exe",
+  "python": "3.12.14",
+  "in_virtual_environment": false,
+  "packages": {
+    "pandas": "3.1.0",
+    "numpy": "2.5.4",
+    "matplotlib": "3.11.2",
+    "seaborn": "0.13.2",
+    "scikit-learn": "1.9.1",
+    "jupyter": "1.1.1",
+    "ucimlrepo": "0.0.7",
+    "python-docx": "1.2.0",
+    "python-pptx": "1.0.2"
+  },
+  "raw_sha256": {
+    "data\\raw\\ckd\\chronickidneydisease.zip": "3f0d0e5bab0f453165acfa2c77eae695393089c5b338cb4cd98339c96a26a585",
+    "data\\raw\\ckd\\chronic_kidney_disease.arff": "0f3360c0e9239d3d211bfbbdedbe818e4569e6d7399e7398c9b464f6e8feeebe",
+    "data\\raw\\ckd\\chronic_kidney_disease.info.txt": "7caf98e34606191d6e5278978a7a4e4df123840374f7a6f5063c4d18501744a3",
+    "data\\raw\\ckd\\chronic_kidney_disease_full.arff": "a5ea96369b8516d725e4f353ad9c6e7e25a1a7db227bc761f59d8e0dfab15797",
+    "data\\raw\\ckd\\uci_source_download_2026-11-01.zip": "3f0d0e5bab0f453165acfa2c77eae695393089c5b338cb4cd98339c96a26a585"
+  },
+  "stages": [],
+  "importer_refresh_requested": false
+}
+
+########## 01_audit_raw.py ##########
+==============================================================================
+1. FILE INVENTORY
+==============================================================================
+                              file  bytes
+       chronic_kidney_disease.arff  44268
+   chronic_kidney_disease.info.txt   2924
+  chronic_kidney_disease_full.arff  47277
+          chronickidneydisease.zip  19410
+uci_source_download_2026-11-01.zip  19410
+
+Analysis file: chronic_kidney_disease_full.arff
+
+==============================================================================
+2. STRUCTURE
+==============================================================================
+Rows: 400   Columns: 25 (24 predictors + class)
+Rows whose comma count did not match the header: 3
+   {'data_row': 70, 'fields_found': 26, 'repair': 'removed trailing empty field', 'fields_after': 25}
+   {'data_row': 73, 'fields_found': 26, 'repair': 'removed trailing empty field', 'fields_after': 25}
+   {'data_row': 370, 'fields_found': 26, 'repair': 'removed stray empty field at position 20', 'fields_after': 25}
+
+First 5 raw rows (text exactly as stored):
+  age  bp     sg al su     rbc        pc         pcc          ba  bgr  bu   sc  sod  pot  hemo pcv  wbcc rbcc  htn   dm cad appet   pe  ane class
+0  48  80  1.020  1  0       ?    normal  notpresent  notpresent  121  36  1.2    ?    ?  15.4  44  7800  5.2  yes  yes  no  good   no   no   ckd
+1   7  50  1.020  4  0       ?    normal  notpresent  notpresent    ?  18  0.8    ?    ?  11.3  38  6000    ?   no   no  no  good   no   no   ckd
+2  62  80  1.010  2  3  normal    normal  notpresent  notpresent  423  53  1.8    ?    ?   9.6  31  7500    ?   no  yes  no  poor   no  yes   ckd
+3  48  70  1.005  4  0  normal  abnormal     present  notpresent  117  56  3.8  111  2.5  11.2  32  6700  3.9  yes   no  no  poor  yes  yes   ckd
+4  51  80  1.010  2  0  normal    normal  notpresent  notpresent  106  26  1.4    ?    ?  11.6  35  7300  4.6   no   no  no  good   no   no   ckd
+
+==============================================================================
+3. RAW MARKERS AND WHITESPACE (before cleaning)
+==============================================================================
+Cells equal to '?': 1009  | cells with leading/trailing whitespace or tabs: 16
+
+Columns with whitespace problems:
+pcv      2
+wbcc     3
+rbcc     1
+dm       6
+cad      2
+class    2
+
+Raw class spellings (repr shows hidden tabs/spaces):
+class
+'ckd'       248
+'notckd'    150
+'ckd\t'       2
+
+Raw spellings of other text columns that differ from their clean value:
+column raw_value  n
+    dm    '\tno'  3
+    dm   '\tyes'  2
+    dm    ' yes'  1
+   cad    '\tno'  2
+Cells equal to '?' after trimming whitespace: 1012 (3 were hidden by a tab or space)
+
+==============================================================================
+4. TYPES: non-numeric text hiding in numeric columns
+==============================================================================
+Values that are not '?' and cannot be read as numbers: none
+(All columns arrive as text in a raw read because '?' appears in every numeric field family.)
+
+==============================================================================
+5. MISSINGNESS
+==============================================================================
+variable             description  missing_n  missing_pct  missing_pct_in_ckd  missing_pct_in_notckd
+     rbc         Red blood cells        152         38.0                57.2                    6.0
+    rbcc    Red blood cell count        131         32.8                49.6                    4.7
+    wbcc  White blood cell count        106         26.5                39.6                    4.7
+     pot               Potassium         88         22.0                33.2                    3.3
+     sod                  Sodium         87         21.8                32.8                    3.3
+     pcv      Packed cell volume         71         17.8                26.8                    2.7
+      pc                Pus cell         65         16.2                22.4                    6.0
+    hemo              Hemoglobin         52         13.0                18.4                    4.0
+      su                   Sugar         49         12.2                17.6                    3.3
+      sg        Specific gravity         47         11.8                16.8                    3.3
+      al                 Albumin         46         11.5                16.4                    3.3
+     bgr    Blood glucose random         44         11.0                15.2                    4.0
+      bu              Blood urea         19          4.8                 5.2                    4.0
+      sc        Serum creatinine         17          4.2                 4.8                    3.3
+      bp          Blood pressure         12          3.0                 4.0                    1.3
+     age                     Age          9          2.2                 3.2                    0.7
+     pcc         Pus cell clumps          4          1.0                 0.0                    2.7
+      ba                Bacteria          4          1.0                 0.0                    2.7
+     htn            Hypertension          2          0.5                 0.0                    1.3
+      dm       Diabetes mellitus          2          0.5                 0.0                    1.3
+     cad Coronary artery disease          2          0.5                 0.0                    1.3
+   appet                Appetite          1          0.2                 0.0                    0.7
+      pe             Pedal edema          1          0.2                 0.0                    0.7
+     ane                  Anemia          1          0.2                 0.0                    0.7
+
+Total missing predictor cells: 1012 of 9600 (10.5%)
+Records with NO missing predictor (complete cases): 158 of 400
+Missing predictors per record (distribution):
+count    400.00
+mean       2.53
+std        2.92
+min        0.00
+25%        0.00
+50%        1.00
+75%        4.00
+max       11.00
+Mean missing predictors per record by class:
+ class
+ckd       3.63
+notckd    0.69
+
+==============================================================================
+6. DUPLICATES
+==============================================================================
+Fully duplicated records (after trimming whitespace): 0
+
+==============================================================================
+7. CLASS BALANCE (after trimming the label)
+==============================================================================
+class
+ckd       250
+notckd    150 
+Proportions: {'ckd': 0.625, 'notckd': 0.375}
+
+==============================================================================
+8. NUMERIC RANGES vs UCI DEFINITIONS (flag, do NOT delete)
+==============================================================================
+      count       min      25%      50%      75%        max
+age   391.0     2.000    42.00    55.00    64.50     90.000
+bp    388.0    50.000    70.00    80.00    80.00    180.000
+bgr   356.0    22.000    99.00   121.00   163.00    490.000
+bu    381.0     1.500    27.00    42.00    66.00    391.000
+sc    383.0     0.400     0.90     1.30     2.80     76.000
+sod   313.0     4.500   135.00   138.00   142.00    163.000
+pot   312.0     2.500     3.80     4.40     4.90     47.000
+hemo  348.0     3.100    10.30    12.65    15.00     17.800
+pcv   329.0     9.000    32.00    40.00    45.00     54.000
+wbcc  294.0  2200.000  6500.00  8000.00  9800.00  26400.000
+rbcc  269.0     2.100     3.90     4.80     5.40      8.000
+sg    353.0     1.005     1.01     1.02     1.02      1.025
+al    354.0     0.000     0.00     0.00     2.00      5.000
+su    351.0     0.000     0.00     0.00     0.00      5.000
+
+Values outside broad plausibility screens (kept in the data, flagged only):
+ record_id variable  value  screen class
+         7      sod  104.0 110-160   ckd
+        22      sod    4.5 110-160   ckd
+        62      sod  163.0 110-160   ckd
+        62      pot   39.0     2-8   ckd
+       129      pot   47.0     2-8   ckd
+       250      pcv    9.0   10-60   ckd
+         7       sc   24.0  0.3-20   ckd
+        22       sc   76.0  0.3-20   ckd
+        62       sc   32.0  0.3-20   ckd
+       149       sc   48.1  0.3-20   ckd
+
+Saved tables to reports/tables and Figures 1-2 to reports/figures.
+{
+  "raw_rows": 400,
+  "raw_cols": 25,
+  "row_structure_anomalies": 3,
+  "question_mark_cells": 1009,
+  "question_mark_cells_after_trim": 1012,
+  "whitespace_cells": 16,
+  "missing_cells": 1012,
+  "total_cells": 9600,
+  "complete_cases": 158,
+  "most_missing_variable": "rbc",
+  "most_missing_n": 152,
+  "most_missing_pct": 38.0,
+  "mean_missing_per_row_ckd": 3.63,
+  "mean_missing_per_row_notckd": 0.69,
+  "duplicate_rows": 0,
+  "class_counts": {
+    "ckd": 250,
+    "notckd": 150
+  },
+  "class_variants_raw": {
+    "'ckd'": 248,
+    "'notckd'": 150,
+    "'ckd\\t'": 2
+  },
+  "flagged_values": 10
+}
+
+########## 02_prepare_split.py ##########
+==============================================================================
+A. CLEANING: before vs after
+==============================================================================
+Rows before: 400   rows after: 400  (no row removed; no label was missing)
+Missing predictor cells: raw '?' after trimming = 1012; NaN after cleaning = 1012
+Class variants combined: {"'ckd'": 248, "'notckd'": 150, "'ckd\\t'": 2} -> {'ckd': 250, 'notckd': 150}
+                          age       bp      bgr       bu       sc      sod      pot     hemo      pcv     wbcc     rbcc       sg       al       su  rbc   pc  pcc   ba  htn   dm  cad appet   pe  ane
+dtype_after_cleaning  float64  float64  float64  float64  float64  float64  float64  float64  float64  float64  float64  float64  float64  float64  str  str  str  str  str  str  str   str  str  str
+
+==============================================================================
+B. STRATIFIED TRAIN/TEST SPLIT (80/20, seed 634)
+==============================================================================
+class  ckd  notckd  total  ckd_share
+all    250     150    400      0.625
+train  200     120    320      0.625
+test    50      30     80      0.625
+
+==============================================================================
+C. LEAKAGE CHECKS
+==============================================================================
+Predictors used: 24
+1) 'class' and 'record_id' are not predictors: OK
+2) Strongest single-variable separators in the training set (AUC for numeric fields,
+   category purity for categorical fields; 1.0 would mean the field alone reveals the label):
+variable  n_observed  auc_ckd  auc_strength
+    hemo         275    0.033         0.967
+     pcv         264    0.051         0.949
+      sg         281    0.070         0.930
+      sc         304    0.921         0.921
+    rbcc         216    0.083         0.917
+      al         282    0.868         0.868
+     sod         253    0.202         0.798
+      bu         302    0.753         0.753
+     rbc         194      NaN         0.753
+     bgr         284    0.739         0.739
+3) Timing: UCI gives no measurement dates, so we cannot prove every field was recorded before the label.
+   Several fields (hemoglobin, serum creatinine, albumin, specific gravity) are the kind of tests used to
+   diagnose CKD, so high accuracy may partly reflect how the label was defined. Document this limitation.
+
+==============================================================================
+D. IMPUTATION: distributions before vs after (fit on TRAIN only)
+==============================================================================
+variable  train_missing_n  median_before  median_after  mean_before  mean_after  sd_before  sd_after  sd_change_pct
+    rbcc              104           4.80          4.80        4.721       4.747      0.989     0.813          -17.8
+    wbcc               82        8100.00       8100.00     8407.983    8329.062   2609.812  2253.538          -13.7
+     pot               68           4.40          4.40        4.672       4.614      3.541     3.143          -11.2
+     sod               67         139.00        139.00      137.737     138.002     10.901     9.702          -11.0
+     pcv               56          40.00         40.00       38.886      39.081      8.982     8.167           -9.1
+    hemo               45          12.80         12.80       12.539      12.576      2.908     2.696           -7.3
+      su               40           0.00          0.00        0.482       0.422      1.148     1.086           -5.4
+      sg               39           1.02          1.02        1.017       1.018      0.006     0.005          -16.7
+      al               38           0.00          0.00        0.972       0.856      1.307     1.266           -3.1
+     bgr               36         122.00        122.00      150.176     147.006     82.009    77.756           -5.2
+      bu               18          40.50         40.50       57.322      56.375     51.197    49.883           -2.6
+      sc               16           1.25          1.25        3.131       3.037      6.136     5.994           -2.3
+      bp               10          80.00         80.00       76.548      76.656     13.583    13.382           -1.5
+     age                8          55.00         55.00       52.074      52.147     17.638    17.422           -1.2
+
+Saved: data/processed/ckd_clean.csv, split_assignment.csv; tables; Figures 3-4.
+
+########## 03_compare_models.py ##########
+Train n=320 (ckd 200); test n=80 (ckd 50). Positive class = ckd.
+
+==============================================================================
+A. MISSING-DATA TREATMENTS (training CV only)
+==============================================================================
+Complete-case option would keep only 122 of 320 training records (38.1%) and would discard a different mix of classes:
+class
+notckd    90
+ckd       32
+                                            strategy                     model  recall_mean  precision_mean  macro_f1_mean  accuracy_mean
+Median / most-frequent + numeric missing-value flags       Logistic regression       0.9817          0.9984         0.9868         0.9875
+Median / most-frequent + numeric missing-value flags Random forest (300 trees)       0.9983          0.9887         0.9910         0.9917
+                   Median / most-frequent (no flags)       Logistic regression       0.9900          1.0000         0.9934         0.9938
+                   Median / most-frequent (no flags) Random forest (300 trees)       0.9983          0.9887         0.9910         0.9917
+                         Median / 'Unknown' category       Logistic regression       0.9967          1.0000         0.9978         0.9979
+                         Median / 'Unknown' category Random forest (300 trees)       1.0000          0.9919         0.9944         0.9948
+
+==============================================================================
+B. MODEL COMPARISON on training data (5-fold x 3 repeats, median/most-frequent imputation)
+==============================================================================
+                    model  recall_mean  recall_sd  precision_mean  f1_mean  macro_f1_mean  macro_f1_sd  accuracy_mean
+  Majority-class baseline       1.0000     0.0000          0.6250   0.7692         0.3846       0.0000         0.6250
+      Logistic regression       0.9900     0.0200          1.0000   0.9949         0.9934       0.0131         0.9938
+  Decision tree (depth 4)       0.9700     0.0367          0.9729   0.9707         0.9611       0.0256         0.9635
+Random forest (300 trees)       0.9983     0.0062          0.9887   0.9934         0.9910       0.0104         0.9917
+
+Why not select on recall alone: the majority-class baseline predicts 'ckd' for everyone, so its CKD recall is
+1.00 even though it never identifies a single notckd record. The rule below
+uses macro F1 as the primary measure and CKD recall as a guardrail.
+Rule: CV CKD recall >= 0.95; highest macro F1; if within 0.01 of the best, choose the simpler model.
+Models within 0.01 macro F1 of the best: ['Logistic regression', 'Random forest (300 trees)']
+SELECTED (using training data only): Logistic regression
+
+==============================================================================
+C. SINGLE LOOK AT THE TEST SET
+==============================================================================
+Confusion matrix (rows = true, columns = predicted; order notckd, ckd):
+ [[30  0]
+ [ 0 50]]
+True negatives 30, false positives 0, false negatives 0, true positives 50
+              precision    recall  f1-score   support
+
+      notckd      1.000     1.000     1.000        30
+         ckd      1.000     1.000     1.000        50
+
+    accuracy                          1.000        80
+   macro avg      1.000     1.000     1.000        80
+weighted avg      1.000     1.000     1.000        80
+
+{
+  "selected_model": "Logistic regression",
+  "n_test": 80,
+  "tn": 30,
+  "fp": 0,
+  "fn": 0,
+  "tp": 50,
+  "accuracy": 1.0,
+  "recall_ckd": 1.0,
+  "precision_ckd": 1.0,
+  "f1_ckd": 1.0,
+  "specificity_notckd": 1.0,
+  "macro_f1": 1.0,
+  "bootstrap_95ci": {
+    "recall_ckd": [
+      1.0,
+      1.0
+    ],
+    "precision_ckd": [
+      1.0,
+      1.0
+    ],
+    "macro_f1": [
+      1.0,
+      1.0
+    ],
+    "accuracy": [
+      1.0,
+      1.0
+    ]
+  },
+  "bootstrap_note": "A perfect prediction vector gives degenerate percentile intervals; these do not establish certainty. Use the Wilson intervals and sampling limitations.",
+  "wilson_95ci_recall": [
+    0.9286499658256813,
+    1.0
+  ],
+  "wilson_95ci_specificity": [
+    0.8864829086095221,
+    1.0
+  ],
+  "baseline_accuracy_from_class_share": 0.625
+}
+
+Test-set errors:
+none: no test record was misclassified
+
+Out-of-fold training errors (5-fold, selected model): 1 of 320
+ record_id class  hemo  pcv   sg  al  sc  rbcc predicted  n_missing_predictors
+       103   ckd  13.9 52.0 1.01 0.0 2.1   NaN    notckd                     2
+
+==============================================================================
+D. SENSITIVITY CHECKS (training CV only)
+==============================================================================
+                            check                                                         model  recall_mean  precision_mean  macro_f1_mean  accuracy_mean
+      D1 missingness pattern only Missingness flags only (24 yes/no flags), logistic regression       0.7850          0.8857          0.794         0.8010
+D2 drop five strongest separators           Logistic regression without hemo, pcv, sg, sc, rbcc       0.9183          0.9981          0.946         0.9479
+
+==============================================================================
+E. WHICH FIELDS DRIVE THE MODELS (fitted on training data; association, not cause)
+==============================================================================
+Logistic regression, largest standardized coefficients (positive = toward ckd):
+ sg           -2.096
+hemo         -1.636
+al            1.247
+pcv          -1.061
+sc            0.911
+rbcc         -0.821
+appet_good   -0.795
+appet_poor    0.794
+su            0.750
+htn_no       -0.748
+
+Random forest, largest impurity importances:
+ hemo       0.218
+pcv        0.169
+sg         0.111
+sc         0.106
+rbcc       0.088
+al         0.057
+htn_yes    0.037
+htn_no     0.030
+dm_no      0.028
+dm_yes     0.027
+
+Saved tables, Figures 5-7, and reports/tables/03_results.json.
+
+########## build_report.py ##########
+Three decision-focused figures generated from source tables; record counts and predictions checked.
+Approved prose, tables, and page formatting preserved; evidence matches.
+C:\Users\JULIE\OneDrive\Documents\ChatGPT\HI 634 foundations of AI for Health Services\final\DEMONSTRATION\HI634_CKD_Project\reports\HI634_CKD_Report.docx
+
+SUCCESS

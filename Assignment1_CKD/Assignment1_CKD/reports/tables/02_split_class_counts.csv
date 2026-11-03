@@ -1,0 +1,4 @@
+,ckd,notckd,total,ckd_share
+all,250,150,400,0.625
+train,200,120,320,0.625
+test,50,30,80,0.625

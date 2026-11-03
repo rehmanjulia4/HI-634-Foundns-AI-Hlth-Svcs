@@ -1,0 +1,28 @@
+{
+  "figure_files": [
+    "figure1_missingness.png",
+    "figure2_class_balance.png",
+    "figure3_confusion_matrix.png"
+  ],
+  "sample_sizes": {
+    "all": 400,
+    "training": 320,
+    "test": 80
+  },
+  "test_matrix": [
+    [
+      30,
+      0
+    ],
+    [
+      0,
+      50
+    ]
+  ],
+  "source_tables": [
+    "01_missingness_by_variable.csv",
+    "01_findings.json",
+    "03_test_predictions.csv"
+  ],
+  "font": "Arial"
+}

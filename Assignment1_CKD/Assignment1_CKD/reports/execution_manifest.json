@@ -1,0 +1,45 @@
+{
+  "started_utc": "2026-11-03T10:58:38.900399+00:00",
+  "python_executable": "C:\\Users\\JULIE\\Downloads\\HI634_Anaconda_Practice\\.venv\\python.exe",
+  "python": "3.12.14",
+  "in_virtual_environment": false,
+  "packages": {
+    "pandas": "3.1.0",
+    "numpy": "2.5.4",
+    "matplotlib": "3.11.2",
+    "seaborn": "0.13.2",
+    "scikit-learn": "1.9.1",
+    "jupyter": "1.1.1",
+    "ucimlrepo": "0.0.7",
+    "python-docx": "1.2.0",
+    "python-pptx": "1.0.2"
+  },
+  "raw_sha256": {
+    "data\\raw\\ckd\\chronickidneydisease.zip": "3f0d0e5bab0f453165acfa2c77eae695393089c5b338cb4cd98339c96a26a585",
+    "data\\raw\\ckd\\chronic_kidney_disease.arff": "0f3360c0e9239d3d211bfbbdedbe818e4569e6d7399e7398c9b464f6e8feeebe",
+    "data\\raw\\ckd\\chronic_kidney_disease.info.txt": "7caf98e34606191d6e5278978a7a4e4df123840374f7a6f5063c4d18501744a3",
+    "data\\raw\\ckd\\chronic_kidney_disease_full.arff": "a5ea96369b8516d725e4f353ad9c6e7e25a1a7db227bc761f59d8e0dfab15797",
+    "data\\raw\\ckd\\uci_source_download_2026-11-01.zip": "3f0d0e5bab0f453165acfa2c77eae695393089c5b338cb4cd98339c96a26a585"
+  },
+  "stages": [
+    {
+      "script": "01_audit_raw.py",
+      "exit_code": 0
+    },
+    {
+      "script": "02_prepare_split.py",
+      "exit_code": 0
+    },
+    {
+      "script": "03_compare_models.py",
+      "exit_code": 0
+    },
+    {
+      "script": "build_report.py",
+      "exit_code": 0
+    }
+  ],
+  "importer_refresh_requested": false,
+  "success": true,
+  "finished_utc": "2026-11-03T10:59:48.275704+00:00"
+}

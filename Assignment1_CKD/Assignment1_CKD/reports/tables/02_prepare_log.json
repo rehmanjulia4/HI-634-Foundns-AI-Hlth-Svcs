@@ -1,0 +1,43 @@
+{
+  "rows_before": 400,
+  "rows_after": 400,
+  "missing_cells_raw": 1012,
+  "missing_cells_clean": 1012,
+  "train_n": 320,
+  "test_n": 80,
+  "train_class": {
+    "ckd": 200,
+    "notckd": 120
+  },
+  "test_class": {
+    "ckd": 50,
+    "notckd": 30
+  },
+  "strongest_separators": [
+    {
+      "variable": "hemo",
+      "auc_strength": 0.967
+    },
+    {
+      "variable": "pcv",
+      "auc_strength": 0.949
+    },
+    {
+      "variable": "sg",
+      "auc_strength": 0.93
+    },
+    {
+      "variable": "sc",
+      "auc_strength": 0.921
+    },
+    {
+      "variable": "rbcc",
+      "auc_strength": 0.917
+    },
+    {
+      "variable": "al",
+      "auc_strength": 0.868
+    }
+  ],
+  "max_sd_shrink_pct": -17.8
+}
